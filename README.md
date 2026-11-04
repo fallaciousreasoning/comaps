@@ -136,7 +136,6 @@ There is a dedicated [Zulip](https://codeberg.org/comaps/Governance/src/branch/m
 
 ## 💬 Feedback
 
-- Rate us on [App Store](https://apps.apple.com/app/comaps/id6747180809) and [Google Play](https://play.google.com/store/apps/details?id=app.comaps.google)
 - Star our repos on Codeberg 
 - Report bugs or request features on the [issue tracker](https://codeberg.org/comaps/comaps/issues)
 
