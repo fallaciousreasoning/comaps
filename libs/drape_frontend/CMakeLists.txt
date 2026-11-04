@@ -166,6 +166,8 @@ set(SRC
   screen_animations.hpp
   screen_operations.cpp
   screen_operations.hpp
+  hillshade_renderer.cpp
+  hillshade_renderer.hpp
   screen_quad_renderer.cpp
   screen_quad_renderer.hpp
   selection_shape.cpp
@@ -227,6 +229,7 @@ target_link_libraries(${PROJECT_NAME}
   PRIVATE
     cppjansson
     editor
+    stb_image
 )
 
 omim_add_test_subdirectory(drape_frontend_tests)

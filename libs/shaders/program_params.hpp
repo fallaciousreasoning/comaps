@@ -74,7 +74,7 @@ struct ALIGNMENT MapProgramParams
                 Program::Text, Program::TextBillboard, Program::TextOutlined, Program::TextOutlinedBillboard,
                 Program::Texturing, Program::TexturingBillboard, Program::BookmarkAboveText,
                 Program::BookmarkAnimAboveText, Program::BookmarkAnimAboveTextBillboard,
-                Program::BookmarkAboveTextBillboard)
+                Program::BookmarkAboveTextBillboard, Program::Hillshade)
 };
 
 struct ALIGNMENT RouteProgramParams

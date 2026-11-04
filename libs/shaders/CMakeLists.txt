@@ -28,6 +28,8 @@ set(shader_files
     GL/debug_rect.vsh.glsl
     GL/hatching_area.fsh.glsl
     GL/hatching_area.vsh.glsl
+    GL/hillshade.fsh.glsl
+    GL/hillshade.vsh.glsl
     GL/imgui.fsh.glsl
     GL/imgui.vsh.glsl
     GL/line.fsh.glsl

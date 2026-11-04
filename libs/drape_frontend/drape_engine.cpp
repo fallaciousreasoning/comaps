@@ -877,6 +877,12 @@ void DrapeEngine::UpdateTransitScheme(TransitDisplayInfos && transitDisplayInfos
                                   MessagePriority::Normal);
 }
 
+void DrapeEngine::EnableHillshade(bool enable)
+{
+  m_threadCommutator->PostMessage(ThreadsCommutator::RenderThread, make_unique_dp<EnableHillshadeMessage>(enable),
+                                  MessagePriority::Normal);
+}
+
 void DrapeEngine::EnableIsolines(bool enable)
 {
   m_threadCommutator->PostMessage(ThreadsCommutator::ResourceUploadThread,

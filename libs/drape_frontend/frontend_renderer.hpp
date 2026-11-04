@@ -67,6 +67,7 @@ class DrapeNotifier;
 class GpsTrackRenderer;
 class RouteRenderer;
 class ScenarioManager;
+class HillshadeRenderer;
 class ScreenQuadRenderer;
 class SelectionShape;
 class SelectObjectMessage;
@@ -467,6 +468,8 @@ private:
 
   bool m_finishTexturesInitialization = false;
   drape_ptr<ScreenQuadRenderer> m_transitBackground;
+  drape_ptr<HillshadeRenderer> m_hillshadeRenderer;
+  bool m_hillshadeEnabled = false;
 
   drape_ptr<DrapeNotifier> m_notifier;
 

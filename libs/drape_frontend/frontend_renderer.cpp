@@ -10,6 +10,7 @@
 #include "drape_frontend/gps_track_renderer.hpp"
 #include "drape_frontend/gui/drape_gui.hpp"
 #include "drape_frontend/gui/layer_render.hpp"
+#include "drape_frontend/hillshade_renderer.hpp"
 #include "drape_frontend/gui/ruler_helper.hpp"
 #include "drape_frontend/gui/scale_fps_helper.hpp"
 #include "drape_frontend/message.hpp"
@@ -876,6 +877,16 @@ void FrontendRenderer::AcceptMessage(ref_ptr<Message> message)
     break;
   }
 
+  case Message::Type::EnableHillshade:
+  {
+    ref_ptr<EnableHillshadeMessage> msg = message;
+    m_hillshadeEnabled = msg->IsEnabled();
+    if (m_hillshadeRenderer)
+      m_hillshadeRenderer->SetEnabled(m_hillshadeEnabled);
+    m_forceUpdateScene = true;
+    break;
+  }
+
   case Message::Type::RegenerateTraffic:
   case Message::Type::SetSimplifiedTrafficColors:
   case Message::Type::UpdateMetalines:
@@ -1452,6 +1463,8 @@ void FrontendRenderer::RenderScene(ScreenBase const & modelView, bool activeFram
     m_viewport.Apply(m_context);
 
     Render2dLayer(modelView);
+    if (m_hillshadeRenderer)
+      m_hillshadeRenderer->Render(m_context, make_ref(m_gpuProgramManager), modelView, m_frameValues);
     RenderUserMarksLayer(modelView, DepthLayer::UserLineLayer);
 
     RenderOverlayUnderBuildingLayer(modelView);
@@ -2420,6 +2433,7 @@ void FrontendRenderer::OnContextDestroy()
   m_transitSchemeRenderer->ClearContextDependentResources(nullptr /* overlayTree */);
 
   m_transitBackground.reset();
+  m_hillshadeRenderer.reset();
   m_debugRectRenderer.reset();
 
   CHECK(m_context != nullptr, ());
@@ -2496,6 +2510,8 @@ void FrontendRenderer::OnContextCreate()
   { return m_postprocessRenderer->OnFramebufferFallback(m_context); });
 
   m_transitBackground = make_unique_dp<ScreenQuadRenderer>(m_context);
+  m_hillshadeRenderer = make_unique_dp<HillshadeRenderer>(m_context);
+  m_hillshadeRenderer->SetEnabled(m_hillshadeEnabled);
 }
 
 void FrontendRenderer::OnRenderingEnabled()
@@ -2577,6 +2593,7 @@ void FrontendRenderer::ReleaseResources()
   m_transitSchemeRenderer.reset();
   m_postprocessRenderer.reset();
   m_transitBackground.reset();
+  m_hillshadeRenderer.reset();
   m_gpuProgramManager.reset();
 
   // Here m_context can be nullptr, so call the method

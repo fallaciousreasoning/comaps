@@ -48,6 +48,61 @@ fragment half4 fsArea(const AreaFragment_T in [[stage_in]])
   return in.color;
 }
 
+// Hillshade
+
+typedef struct
+{
+  float3 a_position [[attribute(0)]];
+  float2 a_texCoords [[attribute(1)]];
+} HillshadeVertex_T;
+
+typedef struct
+{
+  float4 position [[position]];
+  float2 texCoords;
+} HillshadeFragment_T;
+
+vertex HillshadeFragment_T vsHillshade(const HillshadeVertex_T in [[stage_in]],
+                                       constant Uniforms_T & uniforms [[buffer(1)]])
+{
+  HillshadeFragment_T out;
+  float4 pos = float4(in.a_position, 1.0) * uniforms.u_modelView * uniforms.u_projection;
+  out.position = ApplyPivotTransform(pos, uniforms.u_pivotTransform, 0.0);
+  out.texCoords = in.a_texCoords;
+  return out;
+}
+
+// Cubic B-spline filtering from 4 bilinear taps, as tiles are often heavily magnified.
+float SampleHillshade(texture2d<float> tex, sampler texSampler, float2 texCoords)
+{
+  constexpr float kTileSize = 256.0;
+  float2 position = texCoords * kTileSize - 0.5;
+  float2 f = fract(position);
+  float2 texel = position - f;
+  float2 f2 = f * f;
+  float2 f3 = f2 * f;
+  float2 w0 = (1.0 - 3.0 * f + 3.0 * f2 - f3) / 6.0;
+  float2 w1 = (4.0 - 6.0 * f2 + 3.0 * f3) / 6.0;
+  float2 w3 = f3 / 6.0;
+  float2 w2 = 1.0 - w0 - w1 - w3;
+  float2 g0 = w0 + w1;
+  float2 g1 = w2 + w3;
+  float2 p0 = (texel + w1 / g0 - 0.5) / kTileSize;
+  float2 p1 = (texel + w3 / g1 + 1.5) / kTileSize;
+  return g0.y * (g0.x * tex.sample(texSampler, p0).r + g1.x * tex.sample(texSampler, float2(p1.x, p0.y)).r) +
+         g1.y * (g0.x * tex.sample(texSampler, float2(p0.x, p1.y)).r + g1.x * tex.sample(texSampler, p1).r);
+}
+
+fragment float4 fsHillshade(const HillshadeFragment_T in [[stage_in]],
+                            constant Uniforms_T & uniforms [[buffer(0)]],
+                            texture2d<float> u_colorTex [[texture(0)]],
+                            sampler u_colorTexSampler [[sampler(0)]])
+{
+  // Tiles store signed shading with 128 meaning flat ground.
+  float shade = SampleHillshade(u_colorTex, u_colorTexSampler, in.texCoords) * (255.0 / 127.0) - (128.0 / 127.0);
+  return float4(float3(step(0.0, shade)), abs(shade) * uniforms.u_opacity);
+}
+
 // Area3d
 
 typedef struct

@@ -104,6 +104,7 @@ std::array<ProgramInfo, static_cast<size_t>(Program::ProgramsCount)> const kMeta
   ProgramInfo("vsSmaaBlendingWeight", "fsSmaaBlendingWeight", {{0, 1}}),           // SmaaBlendingWeight
   ProgramInfo("vsSmaaFinal", "fsSmaaFinal", {{0, 1}}),                             // SmaaFinal
   ProgramInfo("vsImGui", "fsImGui", {{0, 2}}),                                     // ImGui
+  ProgramInfo("vsHillshade", "fsHillshade", {{0, 1}}),                             // Hillshade
 }};
 
 MTLVertexFormat GetFormatByDataType(MTLDataType dataType)

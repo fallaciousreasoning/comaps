@@ -1129,6 +1129,19 @@ private:
   bool const m_isSimplified;
 };
 
+class EnableHillshadeMessage : public Message
+{
+public:
+  explicit EnableHillshadeMessage(bool isEnabled) : m_isEnabled(isEnabled) {}
+
+  Type GetType() const override { return Type::EnableHillshade; }
+
+  bool IsEnabled() const { return m_isEnabled; }
+
+private:
+  bool m_isEnabled = false;
+};
+
 class EnableIsolinesMessage : public Message
 {
 public:

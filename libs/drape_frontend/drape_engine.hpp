@@ -241,6 +241,7 @@ public:
   void ClearAllTransitSchemeCache();
 
   void EnableIsolines(bool enable);
+  void EnableHillshade(bool enable);
 
   void SetFontScaleFactor(double scaleFactor);
 
