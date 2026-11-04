@@ -65,16 +65,6 @@ A community-led free & open source maps app based on [OpenStreetMap](https://www
 </p>
 
 
-<!-- Screenshots -->
-<p align="center">
-  <img src="android/app/src/fdroid/play/listings/en-US/graphics/phone-screenshots/1.png" width="180" />
-  <img src="android/app/src/fdroid/play/listings/en-US/graphics/phone-screenshots/2.png" width="180" />
-  <img src="android/app/src/fdroid/play/listings/en-US/graphics/phone-screenshots/3.png" width="180" />
-  <img src="android/app/src/fdroid/play/listings/en-US/graphics/phone-screenshots/4.png" width="180" />
-  <img src="android/app/src/fdroid/play/listings/en-US/graphics/phone-screenshots/5.png" width="180" />
-  <img src="android/app/src/fdroid/play/listings/en-US/graphics/phone-screenshots/6.png" width="180" />
-</p>
-
 ---
 
 ## ⚡️ Highlights
