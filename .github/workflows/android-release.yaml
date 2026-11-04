@@ -60,9 +60,12 @@ jobs:
         with:
           fetch-depth: 200 # enough to get all commits for the current day
 
+      # Relative submodule URLs would otherwise resolve to repositories this fork doesn't have.
       - name: Parallel submodules checkout
         shell: bash
-        run: git submodule update --depth 1 --init --recursive --jobs=$(($(nproc) * 20))
+        run: |
+          git config --global url."https://codeberg.org/comaps/".insteadOf "https://github.com/${GITHUB_REPOSITORY_OWNER}/"
+          git submodule update --depth 1 --init --recursive --jobs=$(($(nproc) * 20))
 
       - name: Configure repository
         shell: bash
