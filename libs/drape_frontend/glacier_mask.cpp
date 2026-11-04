@@ -73,25 +73,29 @@ GlacierMask::Runs GlacierMask::Split(m2::SharedSpline const & spline) const
   std::vector<m2::PointD> run = {path.front()};
   bool onGlacier = IsInside(path.front());
 
-  auto const addPoint = [&](m2::PointD const & point)
-  {
-    bool const inside = IsInside(point);
-    run.push_back(point);
-    if (inside == onGlacier)
-      return;
-
-    runs.emplace_back(m2::SharedSpline(std::move(run)), onGlacier);
-    run = {point};
-    onGlacier = inside;
-  };
-
   for (size_t i = 1; i < path.size(); ++i)
   {
     auto const & from = path[i - 1];
     auto const & to = path[i];
+
+    // Sample along the segment, but only keep the points where the line crosses a glacier edge:
+    // batches can't take a line with many more points than the original.
     int const steps = std::max(1, static_cast<int>(std::ceil(from.Length(to) / m_cellSize)));
     for (int step = 1; step <= steps; ++step)
-      addPoint(from + (to - from) * (static_cast<double>(step) / steps));
+    {
+      m2::PointD const point = from + (to - from) * (static_cast<double>(step) / steps);
+      bool const inside = IsInside(point);
+      if (inside == onGlacier)
+        continue;
+
+      run.push_back(point);
+      runs.emplace_back(m2::SharedSpline(std::move(run)), onGlacier);
+      run = {point};
+      onGlacier = inside;
+    }
+
+    if (run.back() != to)
+      run.push_back(to);
   }
 
   if (run.size() > 1)
