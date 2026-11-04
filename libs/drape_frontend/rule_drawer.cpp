@@ -2,18 +2,21 @@
 
 #include "drape_frontend/apply_feature_functors.hpp"
 #include "drape_frontend/engine_context.hpp"
+#include "drape_frontend/glacier_mask.hpp"
 #include "drape_frontend/metaline_manager.hpp"
 #include "drape_frontend/stylist.hpp"
 #include "drape_frontend/tile_key.hpp"
 #include "drape_frontend/traffic_renderer.hpp"
 #include "drape_frontend/visual_params.hpp"
 
+#include "indexer/classificator.hpp"
 #include "indexer/feature.hpp"
 #include "indexer/feature_algo.hpp"
 #include "indexer/feature_data.hpp"
 #include "indexer/feature_decl.hpp"
 #include "indexer/feature_meta.hpp"
 #include "indexer/ftypes_matcher.hpp"
+#include "indexer/map_style_reader.hpp"
 #include "indexer/mwm_set.hpp"
 #include "indexer/scales.hpp"
 
@@ -181,6 +184,7 @@ RuleDrawer::RuleDrawer(TCheckCancelledCallback const & checkCancelled, TIsCountr
   auto const & tileKey = m_context->GetTileKey();
   m_globalRect = tileKey.GetGlobalRect();
   m_zoomLevel = tileKey.m_zoomLevel;
+  m_deferIsolines = m_context->IsolinesEnabled() && !MapStyleIsDark(GetStyleReader().GetCurrentStyle());
 
   auto & vparams = df::VisualParams::Instance();
   int32_t tileSize = vparams.GetTileSize();
@@ -334,10 +338,19 @@ void RuleDrawer::ProcessAreaAndPointStyle(FeatureType & f, Stylist const & s, TI
   }
 }
 
+std::vector<FeatureID> RuleDrawer::TakeDeferredIsolines()
+{
+  m_deferIsolines = false;
+  return std::move(m_deferredIsolines);
+}
+
 void RuleDrawer::ProcessLineStyle(FeatureType & f, Stylist const & s, TInsertShapeFn const & insertShape)
 {
   ApplyLineFeatureGeometry applyGeom(m_context->GetTileKey(), insertShape, f, m_currentScaleGtoP);
   f.ForEachPoint(applyGeom, m_zoomLevel);
+
+  if (m_glacierMask && ftypes::IsIsolineChecker::Instance()(f))
+    applyGeom.SetGlacierMask(m_glacierMask.get());
 
   if (applyGeom.HasGeometry())
     applyGeom.ProcessLineRules(s.m_lineRules);
@@ -453,6 +466,24 @@ void RuleDrawer::operator()(FeatureType & f)
   m2::RectD const limitRect = f.GetLimitRect(m_zoomLevel);
   if (!m_globalRect.IsIntersect(limitRect))
     return;
+
+  if (m_deferIsolines)
+  {
+    if (ftypes::IsIsolineChecker::Instance()(types))
+    {
+      m_deferredIsolines.push_back(f.GetID());
+      return;
+    }
+
+    static uint32_t const kGlacierType = classif().GetTypeByPath({"natural", "glacier"});
+    if (types.Has(kGlacierType) && f.GetGeomType() == feature::GeomType::Area)
+    {
+      if (!m_glacierMask)
+        m_glacierMask = std::make_unique<GlacierMask>(m_globalRect);
+      f.ForEachTriangle([this](m2::PointD const & p1, m2::PointD const & p2, m2::PointD const & p3)
+      { m_glacierMask->AddTriangle(p1, p2, p3); }, m_zoomLevel);
+    }
+  }
 
   auto insertShape = [this](drape_ptr<MapShape> && shape)
   {

@@ -69,6 +69,10 @@ void TileInfo::ReadFeatures(MapDataProvider const & model)
     RuleDrawer drawer(std::bind(&TileInfo::IsCancelled, this), model.m_isCountryLoadedByName, make_ref(m_context),
                       m_context->GetMapLangIndex());
     model.ReadFeatures(std::bind<void>(std::ref(drawer), _1), m_featureInfo);
+
+    auto const isolines = drawer.TakeDeferredIsolines();
+    if (!isolines.empty())
+      model.ReadFeatures(std::bind<void>(std::ref(drawer), _1), isolines);
 #ifdef DRAW_TILE_NET
     drawer.DrawTileNet();
 #endif

@@ -2,6 +2,7 @@
 > **This is a personal fork of [CoMaps](https://codeberg.org/comaps/comaps) that applies the [LINZ topographic](https://basemaps.linz.govt.nz/) style to the map**, so it looks like a New Zealand topo map. It adds:
 >
 > - The LINZ topographic colours, road casings, track dashes, waterways and contours to the light map styles, including car navigation.
+> - Blue contours where they cross a glacier, as on LINZ topo maps.
 > - An optional offline **Hillshade** layer for New Zealand, in the layers menu. The app downloads a 70 MB bundle from `data.topos.nz` the first time it's enabled. `tools/python/hillshade_bundle.py` builds the bundle from terrain-RGB tiles.
 >
 > Dark mode is unchanged. This fork isn't published as an app.

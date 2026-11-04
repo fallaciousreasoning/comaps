@@ -74,6 +74,8 @@ set(SRC
   frame_values.hpp
   frontend_renderer.cpp
   frontend_renderer.hpp
+  glacier_mask.cpp
+  glacier_mask.hpp
   gps_track_point.hpp
   gps_track_renderer.cpp
   gps_track_renderer.hpp

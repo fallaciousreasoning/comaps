@@ -1,5 +1,6 @@
 #include "drape_frontend/apply_feature_functors.hpp"
 
+#include "drape_frontend/glacier_mask.hpp"
 #include "drape_frontend/area_shape.hpp"
 #include "drape_frontend/color_constants.hpp"
 #include "drape_frontend/colored_symbol_shape.hpp"
@@ -1026,7 +1027,18 @@ void ApplyLineFeatureGeometry::ProcessRule(LineRuleProto const & lineRule)
     params.m_zoomLevel = m_tileKey.m_zoomLevel;
 
     for (auto const & spline : m_clippedSplines)
-      m_insertShape(make_unique_dp<LineShape>(spline, params));
+    {
+      if (m_glacierMask == nullptr)
+      {
+        m_insertShape(make_unique_dp<LineShape>(spline, params));
+        continue;
+      }
+
+      LineViewParams glacierParams = params;
+      glacierParams.m_color = dp::Color(52, 126, 191, params.m_color.GetAlpha());
+      for (auto const & [run, onGlacier] : m_glacierMask->Split(spline))
+        m_insertShape(make_unique_dp<LineShape>(run, onGlacier ? glacierParams : params));
+    }
   }
 }
 

@@ -6,6 +6,7 @@
 
 #include "drape/pointers.hpp"
 
+#include "indexer/feature_decl.hpp"
 #include "indexer/road_shields_parser.hpp"
 
 #include "geometry/rect2d.hpp"
@@ -14,7 +15,9 @@
 #include <array>
 #include <functional>
 #include <map>
+#include <memory>
 #include <string>
+#include <vector>
 
 #include "3party/ankerl/unordered_dense.h"
 
@@ -23,6 +26,7 @@ class FeatureType;
 namespace df
 {
 class EngineContext;
+class GlacierMask;
 class Stylist;
 
 /*
@@ -45,6 +49,10 @@ public:
   ~RuleDrawer();
 
   void operator()(FeatureType & f);
+
+  // Isolines are held back until all glaciers in the tile are known. Read the returned
+  // features with this drawer again to draw them.
+  std::vector<FeatureID> TakeDeferredIsolines();
 
 #ifdef DRAW_TILE_NET
   void DrawTileNet();
@@ -69,6 +77,10 @@ private:
   CustomFeaturesContextPtr m_customFeaturesContext;
   int8_t m_deviceLang;
   ankerl::unordered_dense::set<m2::Spline const *> m_usedMetalines;
+
+  std::unique_ptr<GlacierMask> m_glacierMask;
+  std::vector<FeatureID> m_deferredIsolines;
+  bool m_deferIsolines;
 
   m2::RectD m_globalRect;
   double m_currentScaleGtoP;

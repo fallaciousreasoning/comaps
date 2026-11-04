@@ -139,6 +139,8 @@ private:
   double const m_currentScaleGtoP;
 };
 
+class GlacierMask;
+
 class ApplyLineFeatureGeometry : public BaseApplyFeature
 {
   using TBase = BaseApplyFeature;
@@ -150,6 +152,7 @@ public:
   void operator()(m2::PointD const & point);
   bool HasGeometry() const { return m_spline->IsValid(); }
   void ProcessLineRules(Stylist::LineRulesT const & lineRules);
+  void SetGlacierMask(GlacierMask const * glacierMask) { m_glacierMask = glacierMask; }
 
   std::vector<m2::SharedSpline> const & GetClippedSplines() const { return m_clippedSplines; }
 
@@ -158,6 +161,7 @@ private:
 
   m2::SharedSpline m_spline;
   std::vector<m2::SharedSpline> m_clippedSplines;
+  GlacierMask const * m_glacierMask = nullptr;
   double const m_currentScaleGtoP;
   double const m_minSegmentSqrLength;
   m2::PointD m_lastAddedPoint;
