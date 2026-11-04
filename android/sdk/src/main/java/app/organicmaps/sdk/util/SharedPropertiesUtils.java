@@ -57,7 +57,7 @@ public final class SharedPropertiesUtils
   {
     return switch (mode)
     {
-      case SUBWAY, TRAFFIC, ISOLINES -> false;
+      case SUBWAY, TRAFFIC, ISOLINES, HILLSHADE -> false;
       default -> mPrefs.getBoolean(PREFS_SHOULD_SHOW_LAYER_MARKER_FOR + mode.name().toLowerCase(Locale.ENGLISH), true);
     };
   }

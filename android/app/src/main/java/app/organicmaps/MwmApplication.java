@@ -27,6 +27,7 @@ import app.organicmaps.sdk.location.LocationHelper;
 import app.organicmaps.sdk.location.LocationState;
 import app.organicmaps.sdk.location.SensorHelper;
 import app.organicmaps.sdk.location.TrackRecorder;
+import app.organicmaps.sdk.maplayer.hillshade.HillshadeManager;
 import app.organicmaps.sdk.maplayer.isolines.IsolinesManager;
 import app.organicmaps.sdk.maplayer.subway.SubwayManager;
 import app.organicmaps.sdk.routing.RoutingController;
@@ -78,6 +79,12 @@ public class MwmApplication extends Application implements Application.ActivityL
   public IsolinesManager getIsolinesManager()
   {
     return getOrganicMaps().getIsolinesManager();
+  }
+
+  @NonNull
+  public HillshadeManager getHillshadeManager()
+  {
+    return getOrganicMaps().getHillshadeManager();
   }
 
   @NonNull

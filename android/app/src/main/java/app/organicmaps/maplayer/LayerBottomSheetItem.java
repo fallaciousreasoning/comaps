@@ -52,6 +52,11 @@ public class LayerBottomSheetItem
         drawableResId = R.drawable.ic_layers_isoline;
         yield R.string.button_layer_isolines;
       }
+      case HILLSHADE ->
+      {
+        drawableResId = R.drawable.ic_layers_hillshade;
+        yield R.string.button_layer_hillshade;
+      }
       case TRAFFIC ->
       {
         drawableResId = R.drawable.ic_layers_traffic;

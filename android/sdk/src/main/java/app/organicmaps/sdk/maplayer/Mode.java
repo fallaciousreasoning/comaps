@@ -3,6 +3,7 @@ package app.organicmaps.sdk.maplayer;
 import android.content.Context;
 import androidx.annotation.NonNull;
 import app.organicmaps.sdk.Framework;
+import app.organicmaps.sdk.maplayer.hillshade.HillshadeManager;
 import app.organicmaps.sdk.maplayer.isolines.IsolinesManager;
 import app.organicmaps.sdk.maplayer.subway.SubwayManager;
 import app.organicmaps.sdk.maplayer.traffic.TrafficManager;
@@ -62,6 +63,19 @@ public enum Mode
       Framework.nativeSetOutdoorsLayerEnabled(isEnabled);
       // TODO: ThemeSwitcher is outside sdk package. Properly fix dependencies
       // ThemeSwitcher.INSTANCE.restart(true);
+    }
+  },
+  HILLSHADE {
+    @Override
+    public boolean isEnabled(@NonNull Context context)
+    {
+      return HillshadeManager.isEnabled();
+    }
+
+    @Override
+    public void setEnabled(@NonNull Context context, boolean isEnabled)
+    {
+      HillshadeManager.setEnabled(isEnabled);
     }
   };
 

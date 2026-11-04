@@ -103,6 +103,7 @@ import app.organicmaps.sdk.location.LocationListener;
 import app.organicmaps.sdk.location.LocationState;
 import app.organicmaps.sdk.location.SensorListener;
 import app.organicmaps.sdk.location.TrackRecorder;
+import app.organicmaps.sdk.maplayer.hillshade.HillshadeState;
 import app.organicmaps.sdk.maplayer.isolines.IsolinesState;
 import app.organicmaps.sdk.routing.RouteMarkType;
 import app.organicmaps.sdk.routing.RoutingController;
@@ -1170,6 +1171,14 @@ public class MwmActivity extends BaseMwmFragmentActivity
     RoutingController.get().rebuildLastRoute();
   }
 
+  private void onHillshadeStateChanged(@NonNull HillshadeState state)
+  {
+    if (state == HillshadeState.DOWNLOADING)
+      Toast.makeText(this, R.string.hillshade_downloading, Toast.LENGTH_SHORT).show();
+    else if (state == HillshadeState.DOWNLOAD_FAILED)
+      Toast.makeText(this, R.string.hillshade_download_failed, Toast.LENGTH_LONG).show();
+  }
+
   private void onIsolinesStateChanged(@NonNull IsolinesState type)
   {
     if (type == IsolinesState.NODATA)
@@ -1254,6 +1263,7 @@ public class MwmActivity extends BaseMwmFragmentActivity
     BookmarkManager.INSTANCE.addLoadingListener(this);
     RoutingController.get().attach(this);
     MwmApplication.from(getApplicationContext()).getIsolinesManager().attach(this::onIsolinesStateChanged);
+    MwmApplication.from(getApplicationContext()).getHillshadeManager().attach(this::onHillshadeStateChanged);
     LocationState.nativeSetListener(this);
     MwmApplication.from(this).getLocationHelper().addListener(this);
     mSearchController.attach(this);
@@ -1273,6 +1283,7 @@ public class MwmActivity extends BaseMwmFragmentActivity
       RoutingController.get().detach();
     }
     MwmApplication.from(getApplicationContext()).getIsolinesManager().detach();
+    MwmApplication.from(getApplicationContext()).getHillshadeManager().detach();
     mSearchController.detach();
     Utils.keepScreenOn(false, getWindow());
 
