@@ -3,20 +3,24 @@
  * (see style.mapcss for exact processing order).
  */
 
-@cycleway: #534DEB; /* slightly darker than in main */
+@cycleway: #6D6D6D;
 
-@pedestrian: #FFFFFF; /* slightly lighter than in main */
-@footway: #FFFFFF; /* slightly lighter than in main */
+@pedestrian: #D2A254;
+@footway: #6D6D6D;
 
-@construction: #ABAB9A;
+@construction: #858282;
 
-@railway: #818071;
-@railway_dark: #767566;
-@railway_dash: #F5F5F5;
+@railway: #433D3D;
+@railway_dark: #433D3D;
+@railway_dash: #433D3D;
 
-@motorway1_border: #673A00;
-@trunk1_border: #805419;
-@primary1_border: #806021;
-@primary2_border: #75581F;
-@secondary0_border: #80682D;
-@secondary1_border: #755F2A;
+@motorway1_border: #787878;
+@trunk1_border: #787878;
+@primary1_border: #787878;
+@primary2_border: #787878;
+@secondary0_border: #4E4E4E;
+@secondary1_border: #4E4E4E;
+
+/* LINZ tracks are #4E4E4E at 80%; outdoors draws them fully opaque. */
+@track: #6D6D6D;
+@path: #6D6D6D;

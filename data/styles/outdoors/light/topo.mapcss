@@ -1,0 +1,42 @@
+/*
+ * Outdoors additions to default/light/topo.mapcss, for the lower zooms
+ * where outdoors shows tracks and streams but default doesn't.
+ */
+
+line|z11-13[highway=track],
+{width: 1.25; dashes: 6,4; opacity: 1;}
+line|z14[highway=track],
+{width: 1.25; dashes: 6,4;}
+
+line|z11-14[highway=path],
+line|z11-14[highway=footway],
+{width: 1; dashes: 2.5,4; opacity: 1;}
+
+line|z12-[waterway=stream],
+line|z12-[waterway=canal],
+{color: @waterway;}
+line|z12[waterway=stream],
+line|z12[waterway=canal],
+{width: 0.75; opacity: 0.75;}
+line|z12[waterway=stream][intermittent],
+{width: 0;}
+
+/* Do not draw tunnel waterways */
+line[waterway][tunnel]
+{width: 0;}
+
+line|z12-14[highway=service],
+{opacity: 1;}
+
+/* Outdoors shows contours earlier than default */
+
+line|z10-[isoline=step_1000],
+line|z10-[isoline=step_500],
+line|z11-[isoline=step_100],
+{width: 1.4; opacity: 0.9;}
+
+line|z11-12[isoline=step_100],
+{width: 0.7; opacity: 0.8;}
+
+line|z13-[isoline=step_50],
+{width: 0.7; opacity: 0.8;}

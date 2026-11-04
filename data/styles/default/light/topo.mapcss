@@ -1,0 +1,267 @@
+/*
+ * Light-mode rule overrides that match the LINZ topographic-v2 vector style.
+ * Colours are in colors.mapcss; this only holds what a colour can't express.
+ * Imported after main.mapcss so dark mode and the shared includes are untouched.
+ *
+ * LINZ values come from MapLibre, whose tiles are 512px, so LINZ zoom N is z(N+1) here.
+ * Only zooms where a feature is already visible are overridden: anything else
+ * would need the maps to be regenerated.
+ */
+
+/* Roads: state highways, then two lane roads, then one lane roads */
+
+line|z8-[highway=motorway],
+line|z8-[highway=trunk],
+line|z8-[highway=primary],
+line|z10-[highway=secondary],
+line|z11-[highway=tertiary],
+line|z11-[highway=unclassified],
+line|z12-[highway=residential],
+line|z12-[highway=road],
+line|z12-[highway=living_street],
+line|z15-[highway=service],
+{opacity: 1;}
+
+line|z8[highway=motorway],
+line|z8[highway=trunk],
+line|z8[highway=primary],
+{width: 1;}
+line|z9[highway=motorway],
+line|z9[highway=trunk],
+line|z9[highway=primary],
+{width: 1.35;}
+line|z10[highway=motorway],
+line|z10[highway=trunk],
+line|z10[highway=primary],
+{width: 1.55;}
+line|z11[highway=motorway],
+line|z11[highway=trunk],
+line|z11[highway=primary],
+{width: 1.75;}
+line|z12[highway=motorway],
+line|z12[highway=trunk],
+line|z12[highway=primary],
+{width: 2.25;}
+line|z13[highway=motorway],
+line|z13[highway=trunk],
+line|z13[highway=primary],
+{width: 3.75;}
+line|z14[highway=motorway],
+line|z14[highway=trunk],
+line|z14[highway=primary],
+{width: 5.25;}
+line|z15[highway=motorway],
+line|z15[highway=trunk],
+line|z15[highway=primary],
+{width: 6.9;}
+line|z16[highway=motorway],
+line|z16[highway=trunk],
+line|z16[highway=primary],
+{width: 8.5;}
+line|z17[highway=motorway],
+line|z17[highway=trunk],
+line|z17[highway=primary],
+{width: 10.7;}
+line|z18[highway=motorway],
+line|z18[highway=trunk],
+line|z18[highway=primary],
+{width: 12.8;}
+line|z19-[highway=motorway],
+line|z19-[highway=trunk],
+line|z19-[highway=primary],
+{width: 15;}
+
+line|z10[highway=secondary],
+{width: 0.7;}
+line|z11[highway=secondary],
+line|z11[highway=tertiary],
+{width: 1.35;}
+line|z12[highway=secondary],
+line|z12[highway=tertiary],
+{width: 1.75;}
+line|z13[highway=secondary],
+line|z13[highway=tertiary],
+{width: 2.9;}
+line|z14[highway=secondary],
+line|z14[highway=tertiary],
+{width: 4;}
+line|z15[highway=secondary],
+line|z15[highway=tertiary],
+{width: 5.75;}
+line|z16[highway=secondary],
+line|z16[highway=tertiary],
+{width: 7.5;}
+line|z17[highway=secondary],
+line|z17[highway=tertiary],
+{width: 9.7;}
+line|z18[highway=secondary],
+line|z18[highway=tertiary],
+{width: 11.8;}
+line|z19-[highway=secondary],
+line|z19-[highway=tertiary],
+{width: 14;}
+
+line|z11[highway=unclassified],
+{width: 0.5;}
+line|z12[highway=unclassified],
+line|z12[highway=residential],
+line|z12[highway=road],
+line|z12[highway=living_street],
+{width: 1;}
+line|z13[highway=unclassified],
+line|z13[highway=residential],
+line|z13[highway=road],
+line|z13[highway=living_street],
+{width: 1.5;}
+line|z14[highway=unclassified],
+line|z14[highway=residential],
+line|z14[highway=road],
+line|z14[highway=living_street],
+{width: 2;}
+line|z15[highway=unclassified],
+line|z15[highway=residential],
+line|z15[highway=road],
+line|z15[highway=living_street],
+line|z15[highway=service],
+{width: 2.5;}
+line|z16[highway=unclassified],
+line|z16[highway=residential],
+line|z16[highway=road],
+line|z16[highway=living_street],
+line|z16[highway=service],
+{width: 3;}
+line|z17[highway=unclassified],
+line|z17[highway=residential],
+line|z17[highway=road],
+line|z17[highway=living_street],
+line|z17[highway=service],
+{width: 4.7;}
+line|z18[highway=unclassified],
+line|z18[highway=residential],
+line|z18[highway=road],
+line|z18[highway=living_street],
+line|z18[highway=service],
+{width: 6.3;}
+line|z19-[highway=unclassified],
+line|z19-[highway=residential],
+line|z19-[highway=road],
+line|z19-[highway=living_street],
+line|z19-[highway=service],
+{width: 8;}
+
+/* LINZ casings are solid and about 1px a side */
+
+line|z11-[highway=tertiary]::border,
+line|z13-[highway=unclassified]::border,
+line|z14-[highway=residential]::border,
+line|z14-[highway=road]::border,
+line|z14-[highway=living_street]::border,
+line|z15-[highway=service]::border,
+{casing-opacity: 1;}
+
+line|z11-12[highway=primary]::border,
+line|z11-12[highway=tertiary]::border,
+{casing-width: 0.5;}
+line|z13-[highway=primary]::border,
+line|z13-[highway=tertiary]::border,
+line|z13-[highway=unclassified]::border,
+line|z14-[highway=motorway]::border,
+line|z14-[highway=trunk]::border,
+line|z14-[highway=secondary]::border,
+line|z14-[highway=residential]::border,
+line|z14-[highway=road]::border,
+line|z14-[highway=living_street]::border,
+line|z15-[highway=service]::border,
+{casing-width: 1;}
+
+/* Tracks: long dashes for vehicle tracks, short dashes for everything on foot */
+
+line|z15[highway=track],
+{width: 1.6; dashes: 8,6;}
+line|z16[highway=track],
+{width: 2; dashes: 12,9;}
+line|z17-[highway=track],
+{width: 2.5; dashes: 18,16;}
+
+line|z15[highway=path],
+line|z15[highway=footway],
+{width: 1.25; dashes: 3,4;}
+line|z16[highway=path],
+line|z16[highway=footway],
+{width: 1.5; dashes: 3.75,4.5;}
+line|z17-[highway=path],
+line|z17-[highway=footway],
+{width: 2; dashes: 5,6;}
+
+/* LINZ has no equivalent, but a track's difficulty is worth keeping */
+
+line|z15[highway=path][_path_grade=difficult],
+{dashes: 1,2;}
+line|z16-[highway=path][_path_grade=difficult],
+{dashes: 1.8,2.5;}
+line|z15[highway=path][_path_grade=expert],
+{dashes: 1,4;}
+line|z16-[highway=path][_path_grade=expert],
+{dashes: 1.6,6;}
+
+/* Railways: a solid dark line, with no dashes on top */
+
+line|z11-[railway=rail],
+{opacity: 0.95;}
+
+/* Water: thin blue lines that strengthen as you zoom in */
+
+line|z10-[waterway=river],
+line|z13-[waterway=stream],
+line|z13-[waterway=canal],
+{color: @waterway;}
+
+line|z10-12[waterway=river],
+{width: 1; opacity: 0.3;}
+line|z13-14[waterway=river],
+{width: 1.2; opacity: 0.4;}
+line|z15-[waterway=river],
+{width: 1.5; opacity: 0.7;}
+
+line|z13-14[waterway=stream],
+line|z13-14[waterway=canal],
+{width: 0.75; opacity: 0.75;}
+line|z15-[waterway=stream],
+line|z15-[waterway=canal],
+{width: 1; opacity: 0.75;}
+
+/* Do not draw tunnel waterways */
+line[waterway][tunnel]
+{width: 0;}
+
+/* Structures */
+
+line|z14-[waterway=dam],
+line|z14-[waterway=weir],
+{color: @structure; opacity: 1;}
+
+line|z17-[natural=tree_row],
+{color: @tree_row; opacity: 0.75;}
+
+/* LINZ has no protected area fill */
+
+area|z10-17[leisure=nature_reserve],
+area|z10-17[boundary=national_park],
+area|z10-17[boundary=protected_area][protect_class=1],
+{fill-opacity: 0;}
+
+/* Contours: LINZ draws them solid, with a heavier line for the major interval */
+
+line|z11-[isoline=step_1000],
+line|z11-[isoline=step_500],
+line|z12-[isoline=step_100],
+{width: 1.4; opacity: 0.9;}
+
+/* Until the 50m contours appear, 100m ones are the minor interval */
+line|z12-13[isoline=step_100],
+{width: 0.7; opacity: 0.8;}
+
+line|z14-[isoline=step_50],
+line|z15-[isoline=step_10],
+line|z15-[isoline=zero],
+{width: 0.7; opacity: 0.8;}

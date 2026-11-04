@@ -1,5 +1,6 @@
 @import("../../default/light/colors.mapcss");
 
 @import("../include/main.mapcss");
+@import("../../default/light/topo.mapcss");
 
 @import("../../default/light/drape_colors.mapcss");
