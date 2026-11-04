@@ -325,6 +325,10 @@ void MainWindow::CreateNavigationBar()
                         std::bind(&MainWindow::OnLayers3dBuildingsChange, this, 0), true);
     m_layers->setChecked(2, m_pDrawWidget->GetFramework().HasBuildings3d());
 
+    m_layers->addAction(QIcon(":/navig64/layers.png"), tr("Hillshade"),
+                        std::bind(&MainWindow::OnLayersHillshadeChange, this, 0), true);
+    m_layers->setChecked(3, m_pDrawWidget->GetFramework().HasHillshadeLayer());
+
     pToolBar->addWidget(m_layers->create());
     m_layers->setMainIcon(QIcon(":/navig64/layers.png"));
 
@@ -954,6 +958,11 @@ void MainWindow::OnLayersContourLinesChange(int8_t const index)
 {
   auto & frm = m_pDrawWidget->GetFramework();
   frm.SetContourLinesLayer(m_layers->isChecked(1));
+}
+
+void MainWindow::OnLayersHillshadeChange(int8_t const index)
+{
+  m_pDrawWidget->GetFramework().SetHillshadeLayer(m_layers->isChecked(3));
 }
 
 void MainWindow::OnLayers3dBuildingsChange(int8_t const index)

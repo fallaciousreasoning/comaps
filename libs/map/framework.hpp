@@ -3,6 +3,7 @@
 #include "map/api_mark_point.hpp"
 #include "map/bookmark_manager.hpp"
 #include "map/features_fetcher.hpp"
+#include "map/hillshade_manager.hpp"
 #include "map/isolines_manager.hpp"
 #include "map/mwm_url.hpp"
 #include "map/place_page_info.hpp"
@@ -232,6 +233,7 @@ protected:
 
   TransitReadManager m_transitManager;
   IsolinesManager m_isolinesManager;
+  HillshadeManager m_hillshadeManager;
 
   // Note. |m_routingManager| should be declared before |m_trafficManager|
   RoutingManager m_routingManager;
@@ -304,6 +306,8 @@ public:
 
   /// If the map has contour lines
   bool HasContourLinesLayer();
+  bool HasHillshadeLayer();
+  void SetHillshadeLayer(bool hasHillshade);
 
   /// Set if the map has contour lines
   void SetContourLinesLayer(bool const hasContourLinesLayer);
@@ -873,6 +877,8 @@ public:
   TransitReadManager & GetTransitManager();
   IsolinesManager & GetIsolinesManager();
   IsolinesManager const & GetIsolinesManager() const;
+
+  HillshadeManager & GetHillshadeManager() { return m_hillshadeManager; }
 
   bool LoadTrafficSimplifiedColors();
   void SaveTrafficSimplifiedColors(bool simplified);

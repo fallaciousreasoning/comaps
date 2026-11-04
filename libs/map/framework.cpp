@@ -141,6 +141,7 @@ std::string_view constexpr kScreenViewport = "ScreenClipRect";
 std::string_view constexpr kOldTrafficEnabledKey = "TrafficEnabled";
 std::string_view constexpr kOldTransitSchemeEnabledKey = "TransitSchemeEnabled";
 std::string_view constexpr kOldIsolinesEnabledKey = "IsolinesEnabled";
+std::string_view constexpr kHillshadeKey = "Hillshade";
 std::string_view constexpr kOldOutdoorsEnabledKey = "OutdoorsEnabled";
 
 size_t constexpr kMaxTrafficCacheSizeBytes = 64 /* Mb */ * 1024 * 1024;
@@ -414,6 +415,7 @@ Framework::Framework(FrameworkParams const & params, bool loadMaps)
   // m_trafficManager.SetEnabled(MapModeHasTraffic());
 
   m_isolinesManager.SetEnabled(HasContourLinesLayer());
+  m_hillshadeManager.SetEnabled(HasHillshadeLayer());
 
   InitTransliteration();
   LOG(LDEBUG, ("Transliterators initialized"));
@@ -1640,6 +1642,7 @@ void Framework::CreateDrapeEngine(ref_ptr<dp::GraphicsContextFactory> contextFac
   m_trafficManager.SetDrapeEngine(make_ref(m_drapeEngine));
   m_transitManager.SetDrapeEngine(make_ref(m_drapeEngine));
   m_isolinesManager.SetDrapeEngine(make_ref(m_drapeEngine));
+  m_hillshadeManager.SetDrapeEngine(make_ref(m_drapeEngine));
   m_searchMarks.SetDrapeEngine(make_ref(m_drapeEngine));
 
   InvalidateUserMarks();
@@ -1710,6 +1713,7 @@ void Framework::DestroyDrapeEngine()
     m_trafficManager.SetDrapeEngine(nullptr);
     m_transitManager.SetDrapeEngine(nullptr);
     m_isolinesManager.SetDrapeEngine(nullptr);
+    m_hillshadeManager.SetDrapeEngine(nullptr);
     m_searchMarks.SetDrapeEngine(nullptr);
     GetBookmarkManager().SetDrapeEngine(nullptr);
 
@@ -2883,6 +2887,20 @@ bool Framework::HasContourLinesLayer()
   if (!settings::Get(kContourLinesKey, hasContourLines) && !settings::Get(kOldIsolinesEnabledKey, hasContourLines))
     hasContourLines = false;
   return hasContourLines;
+}
+
+bool Framework::HasHillshadeLayer()
+{
+  bool hasHillshade;
+  if (!settings::Get(kHillshadeKey, hasHillshade))
+    hasHillshade = false;
+  return hasHillshade;
+}
+
+void Framework::SetHillshadeLayer(bool hasHillshade)
+{
+  settings::Set(kHillshadeKey, hasHillshade);
+  m_hillshadeManager.SetEnabled(hasHillshade);
 }
 
 void Framework::SetContourLinesLayer(bool const hasContourLines)
