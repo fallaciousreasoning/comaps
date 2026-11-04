@@ -269,7 +269,7 @@ android {
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             matchingFallbacks += "release" // Use dependencies of "release" build type.
-            resValue("string", "app_name", "$appName Test")
+            resValue("string", "app_name", appName)
         }
     }
 
