@@ -59,26 +59,8 @@
 A community-led free & open source maps app based on [OpenStreetMap](https://www.openstreetmap.org), built for transparency, privacy, and not-for-profit values. A fork of Organic Maps, originally based on Maps.ME.
 
 <p align="center">
-  <a href="https://apps.apple.com/app/comaps/id6747180809">
-    <img src="docs/badges/apple-appstore.png" alt="App Store" width="160"/>
-  </a>
-  <a href="https://play.google.com/store/apps/details?id=app.comaps.google">
-    <img src="docs/badges/google-play.png" alt="Google Play" width="160"/>
-  </a>
-  <a href="https://f-droid.org/en/packages/app.comaps.fdroid/">
-    <img src="docs/badges/fdroid.png" alt="F-Droid" width="160"/>
-  </a>
-  <a href="https://flathub.org/apps/app.comaps.comaps">
-    <img src="docs/badges/flathub.png" alt="Flathub" width="160"/>
-  </a>
-  <a href="https://apt.izzysoft.de/fdroid/index/apk/app.comaps">
-    <img src="docs/badges/izzyondroid.png" alt="Obtainium" width="160"/>
-  </a>
-  <a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://codeberg.org/comaps/comaps">
+  <a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/fallaciousreasoning/comaps">
     <img src="docs/badges/obtainium.png" alt="Obtainium" width="160"/>
-  </a>
-  <a href="https://codeberg.org/comaps/comaps/releases">
-    <img src="docs/badges/codeberg.png" alt="Codeberg" width="160"/>
   </a>
 </p>
 
