@@ -1,0 +1,67 @@
+/*
+ * Light-mode rule overrides that match the LINZ topographic-v2 vector style.
+ * Colours are in colors.mapcss; this only holds what a colour can't express.
+ * Road widths stay as they are so the map is readable while driving.
+ * Only zooms where a feature is already visible are overridden: anything else
+ * would need the maps to be regenerated.
+ */
+
+/* Roads: state highways, then two lane and one lane roads */
+
+line|z7-[highway=motorway],
+line|z7-[highway=trunk],
+line|z8-[highway=primary],
+line|z10-[highway=motorway_link],
+line|z10-[highway=trunk_link],
+line|z11-[highway=primary_link],
+{opacity: 1; casing-color: @casing_major; casing-opacity: 1;}
+
+line|z10-[highway=secondary],
+line|z13-[highway=secondary_link],
+line|z11-[highway=tertiary],
+line|z14-[highway=tertiary_link],
+line|z11-[highway=unclassified],
+line|z12-[highway=residential],
+line|z12-[highway=road],
+line|z12-[highway=living_street],
+{opacity: 1; casing-opacity: 1;}
+
+line|z16-[highway=track],
+line|z17-[highway=path],
+line|z18-[highway=footway],
+line|z18-[highway=cycleway],
+line|z18-[highway=bridleway],
+{opacity: 1;}
+
+/* Railways */
+
+line|z11-[railway=rail],
+line|z10-[railway=rail][usage=main],
+{opacity: 0.95;}
+
+/* Water */
+
+line|z10-[waterway=river],
+line|z13-[waterway=stream],
+line|z13-[waterway=canal],
+{opacity: 1;}
+
+/* Land cover: this style shares one green between forest and everything else */
+
+area|z10-12[leisure=park],
+area|z13-[leisure=park],
+area|z12-[leisure=garden],
+area|z14-[landuse=cemetery],
+area|z14-[amenity=grave_yard],
+area|z12-[landuse=orchard],
+area|z12-[landuse=vineyard],
+{fill-color: @park;}
+
+area|z12-[natural=heath],
+area|z12-[natural=scrub],
+{fill-color: @scrub;}
+
+area|z12-[landuse=meadow],
+area|z12-[landuse=recreation_ground],
+area|z12-[landuse=village_green],
+{fill-color: @land;}
